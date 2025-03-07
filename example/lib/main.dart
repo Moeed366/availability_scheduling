@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:availability_scheduling/availability_scheduling.dart';
 
@@ -29,10 +28,12 @@ class AvailabilitySchedulingExample extends StatefulWidget {
   const AvailabilitySchedulingExample({super.key});
 
   @override
-  _AvailabilitySchedulingExampleState createState() => _AvailabilitySchedulingExampleState();
+  _AvailabilitySchedulingExampleState createState() =>
+      _AvailabilitySchedulingExampleState();
 }
 
-class _AvailabilitySchedulingExampleState extends State<AvailabilitySchedulingExample> {
+class _AvailabilitySchedulingExampleState
+    extends State<AvailabilitySchedulingExample> {
   List<Event> _events = [
     Event(
       day: 'Mon',
@@ -53,7 +54,8 @@ class _AvailabilitySchedulingExampleState extends State<AvailabilitySchedulingEx
   void _printEvents() {
     print('Current Schedule Events:');
     for (var event in _events) {
-      print('Day: ${event.day}, Title: ${event.title}, Start: ${event.startTime}, End: ${event.endTime}, Color: ${event.color}');
+      print(
+          'Day: ${event.day}, Title: ${event.title}, Start: ${event.startTime}, End: ${event.endTime}, Color: ${event.color}');
     }
   }
 
@@ -75,4 +77,6 @@ class _AvailabilitySchedulingExampleState extends State<AvailabilitySchedulingEx
         tooltip: 'Print Events',
         child: const Icon(Icons.print),
       ),
-    );}}
+    );
+  }
+}

@@ -20,10 +20,10 @@ class WeeklySchedule extends StatefulWidget {
   });
 
   @override
-  _WeeklyScheduleState createState() => _WeeklyScheduleState();
+  WeeklyScheduleState createState() => WeeklyScheduleState();
 }
 
-class _WeeklyScheduleState extends State<WeeklySchedule> {
+class WeeklyScheduleState extends State<WeeklySchedule> {
   late List<Event> events;
   double? dragStartY;
   double? dragEndY;
@@ -32,7 +32,15 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
   DateTime? originalStartTime;
   DateTime? originalEndTime;
 
-  final List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  final List<String> weekdays = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun'
+  ];
   final int halfHoursPerDay = 48;
 
   late ScrollController _headerScrollController;
@@ -121,7 +129,8 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                     controller: _headerScrollController,
                     physics: const FastScrollPhysics(),
                     child: Row(
-                      children: weekdays.map((day) => Container(
+                      children: weekdays
+                          .map((day) => Container(
                         width: widget.dayWidth,
                         height: 50,
                         child: Center(
@@ -133,7 +142,8 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                             ),
                           ),
                         ),
-                      )).toList(),
+                      ))
+                          .toList(),
                     ),
                   ),
                 ),
@@ -183,7 +193,11 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                           return Container(
                             width: widget.dayWidth,
                             decoration: BoxDecoration(
-                              border: Border(right: BorderSide(color: Colors.grey[300]!)),
+                              border: Border(
+                                right: BorderSide(
+                                  color: Colors.grey[300] ?? Colors.grey, // Fallback for null
+                                ),
+                              ),
                             ),
                             child: GestureDetector(
                               onVerticalDragStart: (details) {
@@ -207,23 +221,28 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                               onVerticalDragUpdate: (details) {
                                 setState(() {
                                   if (selectedDay == day) {
-                                    dragEndY = details.localPosition.dy.clamp(0.0, halfHoursPerDay * widget.halfHourHeight);
+                                    dragEndY = details.localPosition.dy.clamp(
+                                        0.0, halfHoursPerDay * widget.halfHourHeight);
 
                                     if (draggedEvent != null) {
-                                      double delta = dragEndY! - dragStartY!;
+                                      double delta = (dragEndY ?? 0) - (dragStartY ?? 0);
                                       int halfHourDelta = (delta / widget.halfHourHeight).round();
-                                      DateTime newStartTime = originalStartTime!.add(Duration(minutes: halfHourDelta * 30));
-                                      DateTime newEndTime = originalEndTime!.add(Duration(minutes: halfHourDelta * 30));
+                                      DateTime newStartTime =
+                                      originalStartTime!.add(Duration(minutes: halfHourDelta * 30));
+                                      DateTime newEndTime =
+                                      originalEndTime!.add(Duration(minutes: halfHourDelta * 30));
 
                                       if (newStartTime.hour >= 0 && newEndTime.hour < 24) {
                                         draggedEvent!.startTime = newStartTime;
                                         draggedEvent!.endTime = newEndTime;
                                         if (!_checkOverlap(draggedEvent!, day)) {
                                           final startHour = newStartTime.hour;
-                                          final startMinute = newStartTime.minute.toString().padLeft(2, '0');
+                                          final startMinute =
+                                          newStartTime.minute.toString().padLeft(2, '0');
                                           final endHour = newEndTime.hour;
                                           final endMinute = newEndTime.minute.toString().padLeft(2, '0');
-                                          draggedEvent!.title = '${draggedEvent!.title.split('\n')[0]}\n$startHour:$startMinute – $endHour:$endMinute';
+                                          draggedEvent!.title =
+                                          '${draggedEvent!.title.split('\n')[0]}\n$startHour:$startMinute – $endHour:$endMinute';
                                         } else {
                                           draggedEvent!.startTime = originalStartTime!;
                                           draggedEvent!.endTime = originalEndTime!;
@@ -276,10 +295,10 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                                     }),
                                     if (dragStartY != null && dragEndY != null && selectedDay == day && draggedEvent == null)
                                       Positioned(
-                                        top: dragEndY! < dragStartY! ? dragEndY : dragStartY,
+                                        top: (dragEndY ?? 0) < (dragStartY ?? 0) ? dragEndY : dragStartY,
                                         left: 4,
                                         right: 4,
-                                        height: (dragEndY! - dragStartY!).abs(),
+                                        height: ((dragEndY ?? 0) - (dragStartY ?? 0)).abs(),
                                         child: Container(
                                           decoration: BoxDecoration(
                                             color: Colors.grey.withOpacity(0.3),
@@ -407,7 +426,8 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                       if (isEditing) events.remove(event);
                       final newEvent = Event(
                         day: day,
-                        title: '${controller.text}\n$displayStartHour:${displayStartMinute.toString().padLeft(2, '0')} – '
+                        title:
+                        '${controller.text}\n$displayStartHour:${displayStartMinute.toString().padLeft(2, '0')} – '
                             '$displayEndHour:${displayEndMinute.toString().padLeft(2, '0')}',
                         startTime: DateTime(2025, 3, 3, eventStartHour, eventStartMinute),
                         endTime: DateTime(2025, 3, 3, eventEndHour, eventEndMinute),
@@ -436,7 +456,8 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
                       if (isEditing) events.remove(event);
                       final newEvent = Event(
                         day: day,
-                        title: '${controller.text}\n$displayStartHour:${displayStartMinute.toString().padLeft(2, '0')} – '
+                        title:
+                        '${controller.text}\n$displayStartHour:${displayStartMinute.toString().padLeft(2, '0')} – '
                             '$displayEndHour:${displayEndMinute.toString().padLeft(2, '0')}',
                         startTime: DateTime(2025, 3, 3, eventStartHour, eventStartMinute),
                         endTime: DateTime(2025, 3, 3, eventEndHour, eventEndMinute),
@@ -468,9 +489,9 @@ class FastScrollPhysics extends BouncingScrollPhysics {
 
   @override
   double applyPhysicsToUserOffset(ScrollMetrics position, double offset) {
-    return offset * 1.5; // Matches original scrolling speed
+    return offset * 1.5;
   }
 
   @override
-  double get dragStartDistanceMotionThreshold => 5.0; // Matches original threshold
+  double get dragStartDistanceMotionThreshold => 5.0;
 }
