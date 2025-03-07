@@ -1,6 +1,7 @@
 # availability_scheduling_example
 
 Demonstrates how to use the availability_scheduling plugin.
+<img src="https://github.com/user-attachments/assets/54fa180c-6293-4f29-bf1a-dc813a841d08" style="width:50%; height:50%;">
 
 ## Getting Started
 
