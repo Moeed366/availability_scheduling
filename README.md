@@ -4,6 +4,7 @@ A Flutter widget for creating and managing a weekly availability schedule with d
 
 [![Pub Version](https://img.shields.io/pub/v/availability_scheduling)](https://pub.dev/packages/availability_scheduling)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<img src="https://github.com/user-attachments/assets/54fa180c-6293-4f29-bf1a-dc813a841d08" style="width:50%; height:50%;">
 
 The `availability_scheduling` package provides a customizable weekly schedule widget for Flutter applications. Users can visualize, create, edit, and move availability events across a 7-day grid with half-hour time slots. It’s ideal for applications requiring time management, such as booking systems, personal planners, or availability trackers.
 
